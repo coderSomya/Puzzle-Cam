@@ -52,6 +52,14 @@ function addEventListeners(){
 function onMouseDown(evt){
   // console.log(evt.x, evt.y);
    SELECTED_PIECE=getPressedPiece(evt);
+
+   if(SELECTED_PIECE!=null){
+    const index= PIECES.indexOf(SELECTED_PIECE);
+    if(index>-1){
+      PIECES.splice(index,1);
+      PIECES.push(SELECTED_PIECE);
+    }
+   }
    if(SELECTED_PIECE!=null){
       SELECTED_PIECE.offset={
         x: evt.x- SELECTED_PIECE.x,
@@ -77,7 +85,7 @@ function onMouseUp(){
 
 function getPressedPiece(loc){
 
-   for(let i=0; i<PIECES.length; i++)
+   for(let i=PIECES.length-1; i>=0; i--)
    {
     if(loc.x>PIECES[i].x && loc.x<PIECES[i].x+PIECES[i].width && loc.y>PIECES[i].y && loc.y<PIECES[i].y+PIECES[i].height){
       return PIECES[i];
