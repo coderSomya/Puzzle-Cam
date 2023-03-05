@@ -69,7 +69,9 @@ function onMouseMove(evt){
 }
 
 function onMouseUp(){
-  
+  if(SELECTED_PIECE.isClose()){
+    SELECTED_PIECE.snap();
+  }
   SELECTED_PIECE=null;
 }
 
@@ -133,6 +135,8 @@ class Piece{
         this.y= SIZE.y+ SIZE.height*this.rowIndex/SIZE.rows;
         this.width= SIZE.width/SIZE.columns;
         this.height= SIZE.height/SIZE.rows;
+         this.xCorrect=this.x;
+      this.yCorrect=this.y;
     }
 
     draw(context){
@@ -146,6 +150,7 @@ class Piece{
             VIDEO.videoHeight/SIZE.rows,
             this.x,
             this.y,
+           
             this.width,
             this.height
         )
@@ -153,5 +158,18 @@ class Piece{
         context.stroke();
     }
 
-   
+   isClose(){
+    if(distance({x:this.x, y:this.y}, {x:this.xCorrect, y:this.yCorrect}) < this.width/3) return true;
+    else return false;
+   }
+
+   snap(){
+    this.x= this.xCorrect;
+    this.y=this.yCorrect;
+   }
+}
+
+function distance(a,b){
+
+  return Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y));
 }
