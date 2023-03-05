@@ -44,9 +44,40 @@ function main(){
 }
 
 function addEventListeners(){
-  CANVAS.addEventListener("mousedown", onMouseDown);
+  //for desktop devices
+
+  CANVAS.addEventListener
+  ("mousedown", onMouseDown);
   CANVAS.addEventListener("mousemove", onMouseMove);
   CANVAS.addEventListener("mouseup", onMouseUp);
+
+  //for mobile devices
+
+  CANVAS.addEventListener("touchstart", onTouchStart);
+  CANVAS.addEventListener("touchmove", onTouchMove);
+  CANVAS.addEventListener("touchend", onTouchEnd);
+
+}
+
+function onTouchStart(evt){
+  let loc= {
+    x: evt.touches[0].clientX,
+    y: evt.touches[0].clientY
+  }
+  onMouseDown(loc);
+}
+
+function onTouchEnd(evt){
+
+  onMouseUp();
+}
+
+function onTouchMove(evt){
+  let loc= {
+    x: evt.touches[0].clientX,
+    y: evt.touches[0].clientY
+  }
+  onMouseMove(loc);
 }
 
 function onMouseDown(evt){
