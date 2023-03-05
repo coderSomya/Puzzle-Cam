@@ -9,9 +9,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body onload="main()">
-    <button onclick="randomizePieces()">Start</button>
+   
+    <div class="menuItems">
+        <div id="menu">
+            <div id="controls">
+                Difficulty <select id="difficulty" onchange="setDifficulty()">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+                <option value="insane">Insane</option>
+                </select>
+                <button onclick="restart()">Start</button>
+            </div>
+        </div>
+        <div id="time"></div>
+      </div>
     <canvas id="myCanvas"></canvas>
-  
+     
 </body>
 <script >
 

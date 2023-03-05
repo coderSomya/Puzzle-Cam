@@ -8,6 +8,9 @@ let SIZE= {
 }
 let PIECES=[];
 let SELECTED_PIECE=null;
+let START_TIME=null;
+let END_TIME= null;
+
 
 function main(){
 
@@ -34,13 +37,49 @@ function main(){
         SIZE.y= window.innerHeight/2- SIZE.height/2;
         
         initializePieces(SIZE.rows, SIZE.columns);
-        updateCanvas();
+        updateGame();
       }
   }).catch((err)=>{
     alert("camera error"+err);
   })
 }
 
+}
+
+function setDifficulty(){
+  let diff= document.getElementById("difficulty").value;
+  
+  switch(diff){
+      case "easy":
+        initializePieces(3,3);
+        break;
+      case"medium":
+        initializePieces(5,5);
+        break;
+      case "hard":
+        initializePieces(10,10);
+        break;
+      case "insane":
+        initializePieces(40,25);
+        break;
+  }
+}
+
+function restart(){
+  START_TIME= new Date().getTime();
+  END_TIME= null;
+  randomizePieces();
+}
+
+function updateTime(){
+  let now= new Date().getTime();
+  if(START_TIME!=null){
+    document.getElementById("time").innerText=Math.floor((now-START_TIME)/1000)
+  }
+}
+
+function formatTime(){
+  //something
 }
 
 function addEventListeners(){
@@ -127,7 +166,7 @@ function getPressedPiece(loc){
 
 // randomizePieces();
 
-function updateCanvas(){
+function updateGame(){
 //   console.log("hello");
   CONTEXT.clearRect(0,0,CANVAS.width, CANVAS.height)
   CONTEXT.globalAlpha=0.3;
@@ -137,7 +176,9 @@ function updateCanvas(){
   for(let i=0; i<PIECES.length; i++){
     PIECES[i].draw(CONTEXT);
   }
-  window.requestAnimationFrame(updateCanvas);
+
+  updateTime();
+  window.requestAnimationFrame(updateGame);
 
 }
 
@@ -198,7 +239,8 @@ class Piece{
     }
 
    isClose(){
-    if(distance({x:this.x, y:this.y}, {x:this.xCorrect, y:this.yCorrect}) < this.width/3) return true;
+    if(distance({x:this.x, y:this.y}, {x:this.xCorrect, y:this.yCorrect}) < this.width/3) {
+      return true;}
     else return false;
    }
 
